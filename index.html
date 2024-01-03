@@ -22,18 +22,28 @@
         </div>
         <div class="modes">
             <div class="p1">
-                <button class="type1">player 1</button>
+                <button class="type1" id="p1">player 1</button>
                 <button class="type1">AI 1</button>
             </div>
             <div class="p2">
-                <button class="type2">player 2</button>
+                <button class="type2" id="p2">player 2</button>
                 <button class="type2">AI 2</button>
             </div>
         </div>
 
     </div>
-    <div class="str-game">
-        <button id="strBtn">Start game</button>
+    <div class="strGame">
+        <div class="start">
+            <button id="strBtn">Start game</button>
+            <label for="">player 1: </label>
+            <input id="name1" type="text">
+            <label for="">player 2: </label>
+            <input id="name2" type="text">
+            <button id="enterName">Enter name</button>
+        </div>
+        <div class="userMessage">
+            <div class="sad">hey</div>
+        </div>
     </div>
     
 </body>

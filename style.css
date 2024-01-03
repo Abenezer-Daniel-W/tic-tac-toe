@@ -27,9 +27,27 @@ body >*{
     border: 3px red solid;
 }
 
-.str-game{
-    flex: 1;
+
+.strGame >*{
+    border: 3px red solid;
 }
+
+.strGame{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    gap: 10px;
+}
+.start{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .cell{
     display: flex;
     justify-content: center;

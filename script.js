@@ -1,7 +1,11 @@
-const userMesage = document.querySelector(".str-game");
+const userMessage = document.querySelector(".userMessage");
+const userDisplay = document.querySelectorAll(".userMessage > *");
 const startBtn = document.getElementById("strBtn");
 const types2 = document.querySelectorAll(".p2 > *");
 const types1 = document.querySelectorAll(".p1 > *");
+const playerNames = document.getElementById("enterName");
+const name1 = document.getElementById("name1");
+const name2 = document.getElementById("name2");
 const cells = document.querySelectorAll(".game  > *");
 
 
@@ -16,6 +20,7 @@ types2.forEach((elem) => elem.addEventListener("click", setPlayer));
 types1.forEach((elem) => elem.addEventListener("click", setPlayer));
 startBtn.addEventListener("click", () => startGame());
 cells.forEach((elem) => elem.addEventListener("click", makeMove));
+playerNames.addEventListener('click', () => changeName())
 
 
 
@@ -23,12 +28,14 @@ cells.forEach((elem) => elem.addEventListener("click", makeMove));
 
 function makeMove(e){
     if (player1 == null || player2 == null){
-        alert("pick player or ai to begin");
+        removeMessage();
+        let div = document.createElement("div");
+        div.innerHTML = "pick player or AI";
+        userMessage.appendChild(div);
     }
     let cord  =  e.target.id;
     let row = parseInt(cord[1]);
     let col = parseInt(cord[2]);
-    console.log(cord, row, col);
 
 
     if (!myBoard.isWinner() && !myBoard.isBoardFull()){
@@ -55,42 +62,59 @@ function makeMove(e){
         }
     }
 
-    console.table(myBoard.board);
 }
 
 function isEndState(){
     if (myBoard.isWinner()){
-        alert("winner");
+        let temp = "";
+        if(myBoard.getWinner() == 1){
+            temp = player1.pname;
+        }
+        if(myBoard.getWinner() == -1){
+            temp = player2.pname;   
+        }
+        
+        removeMessage();
+
+        let div = document.createElement("div");
+        div.innerHTML = temp + " wins";
+        userMessage.appendChild(div);
     }
     if(myBoard.isBoardFull()){
-        alert("board full");
+        removeMessage();
+
+        let div = document.createElement("div");
+        div.innerHTML = "board is full";
+        userMessage.appendChild(div);
     }
+
+
 
 }
 
 function startGame(){
+    removeMessage();
     myBoard.clear();
     cells.forEach((elem) => elem.innerHTML = "");
 
-
     let div = document.createElement("div");
     div.innerHTML = "pick player or AI";
-    userMesage.appendChild(div);
+    userMessage.appendChild(div);
 }
 
 function setPlayer(e){
     let temp = e.target.innerHTML;
     let temptype = temp.slice(0, temp.length -2);
     let num = parseInt(temp.charAt(temp.length-1));
-    console.log(temptype + " " + num);
     if (num == 1){
         player1 = player(temptype + " " + num, 1);
     }
     else if(num == 2){
         player2 = player(temptype + " " + num, -1);
     }
-    console.log(player1, player2);
 } 
+
+
 
 
 function gameBoard(){
@@ -103,10 +127,8 @@ function gameBoard(){
             board[i][j] = 0;
         }
     }
-    console.log(board);
 
     const placeMark = (mark, row, col) => {
-        console.log(mark);
         board[row][col] = mark;
     };
 
@@ -205,13 +227,11 @@ function player(name, mark){
         do {
             row = prompt(pname+" put in a row: ");
             col = prompt(pname+ " put in a col: ");
-            console.log(pmark, parseInt(row), parseInt(col),pname);  
         }while(!board.isValidMove(row, col))
         
             
         board.placeMark(pmark, parseInt(row), parseInt(col));
         board.turn = !board.turn;
-        console.log("hey");
 
     }; 
 
@@ -227,3 +247,36 @@ function player(name, mark){
 
 
 
+function removeMessage(){
+    let parent = document.querySelector(".userMessage");
+    let list = document.querySelectorAll(".userMessage > *");
+
+    list.forEach((elem) => {
+        if (elem.tagName == "DIV"){
+            // console.log(elem.innerHTML);
+            parent.removeChild(elem);
+        }
+    });
+}
+
+function changeName() {
+    if(player1 == undefined || player2 == undefined){
+        removeMessage();
+        let div = document.createElement("div");
+        div.innerHTML = "pick player or AI";
+        userMessage.appendChild(div);
+    }
+    else{
+    if(name1.value != ""){
+        let btnName = document.getElementById("p1");
+        btnName.innerHTML =name1.value;
+        player1.pname = name1.value;
+
+    }
+    if(name2.value != ""){
+        let btnName = document.getElementById("p2");
+        btnName.innerHTML =name2.value;
+        player2.pname = name2.value;
+    }
+}
+}
